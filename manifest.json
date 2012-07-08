@@ -1,0 +1,25 @@
+{
+	"name":"Acunote helper",
+	"version":"0.1",
+	"description":"Helps to change tasks values in few clicks",
+	"background_page": "background.html",
+	"permissions" : [
+	    "tabs"
+	],
+	"page_action": {
+		"default_title": "Acunote actions in few clicks",
+        "default_icon": "img/icon48.png",
+        "default_popup": "popup.html"
+	},
+	"icons" : {
+		"16" : "img/icon16.png",
+		"48" : "img/icon48.png",
+		"128" : "img/icon128.png"
+	},
+	"content_scripts": [
+		{
+			"matches": ["*://*.acunote.com/*query=*"],
+			"js": ["mootools.js", "content.js"]
+		}
+	]
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<link href="main.css" rel="stylesheet" type="text/css">
+	<script src="mootools.js"></script>
+	<script src="Fx.Slide.js"></script>
+	<script src="main.js"></script>
+</head>
+<body>
+
+	<div class="container">
+
+		<div class="buttons">
+			<input type="button" id="fill" value="Fill tasks"/>
+		</div>
+
+		<div class="settings_title">
+			<i id="settings_arrow" class="left_arrow"></i>
+			<a href="#" id="toggle_settings">Settings</a>
+		</div>
+
+		<div id="settings" class="settings">
+			<div name="item" _setting_name="owner" class="item">
+				<div class="field disable">
+					<input type="checkbox" name="checkbox"/>
+				</div>
+				<div class="field setting_name" name="name">Owner:</div>
+				<select id="username" name="value"></select>
+			</div>
+			<div name="item" _setting_name="status" class="item">
+				<div class="field disable">
+					<input type="checkbox" name="checkbox"/>
+				</div>
+				<div class="field setting_name" name="name">Status:</div>
+				<select id="username" name="value"></select>
+			</div>
+			<div name="item" _setting_name="priority" class="item">
+				<div class="field disable">
+					<input type="checkbox" name="checkbox"/>
+				</div>
+				<div class="field setting_name" name="name">Priority:</div>
+				<select id="username" name="value"></select>
+			</div>
+			<div name="item" _setting_name="estimate" class="item">
+				<div class="field disable" name="estimate">
+					<input type="checkbox" name="checkbox"/>
+				</div>
+				<div class="field setting_name" name="name">Estimate:</div>
+				<input type="text" class="estimate" name="value"/>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
