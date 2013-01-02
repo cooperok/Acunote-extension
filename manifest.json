@@ -1,13 +1,17 @@
 {
+	"manifest_version": 2,
 	"name":"Acunote helper",
-	"version":"0.1",
-	"description":"Helps to change tasks values in few clicks",
-	"background_page": "background.html",
+	"version":"0.2",
+	"description":"Helps to change tasks in few clicks",
+	"background": {
+		"persistant": false,
+		"scripts": ["background.js"]
+	},
 	"permissions" : [
 	    "tabs"
 	],
 	"page_action": {
-		"default_title": "Acunote actions in few clicks",
+		"default_title": "Manage tasks in few clicks",
         "default_icon": "img/icon48.png",
         "default_popup": "popup.html"
 	},
