@@ -1,0 +1,10 @@
+{
+	"classes" : [
+		"Controller_class", "ExtensionPort_class",
+		"Model_class", "Settings_class",
+		"SettingsItem_class", "SettingsSlider_class"
+	],
+	"libs" : [
+		"mootools.js", "Fx.Slide.js"
+	]
+}

@@ -23,7 +23,17 @@
 	"content_scripts": [
 		{
 			"matches": ["*://*.acunote.com/*query=*"],
-			"js": ["mootools.js", "content.js"]
+			"js": [
+				"libs/mootools.js", "classes/TaskField.class.js",
+				"classes/OwnerField.class.js", "classes/PriorityField.class.js",
+				"classes/StatusField.class.js", "classes/EstimateField.class.js",
+				"classes/Task.class.js", "classes/Acunote.class.js",
+				"classes/RequestHandler.class.js", "classes/ContentPort.class.js",
+				"content.js"
+			]
 		}
+	],
+	"web_accessible_resources": [
+		"img/*", "libs/*", "classes/*", "json/*"
 	]
 }

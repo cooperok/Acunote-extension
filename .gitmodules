@@ -1,0 +1,3 @@
+[submodule "loader"]
+	path = loader
+	url = git@github.com:cooperok/js_loader.git
