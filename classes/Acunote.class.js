@@ -28,6 +28,8 @@ var Acunote_class = new Class({
 
 		this.priotity = this.getPriority();
 
+		this.tags = this.getTags();
+
 		this.statuses = this.getStatuses();
 
 		this.tasks = this.getTasks();
@@ -36,19 +38,31 @@ var Acunote_class = new Class({
 
 	getOwners: function() {
 
-		return this.getSelectValues( $('issue_dynamic_owner_editor') );
+		return this.getSelectValues( $('new_task_dialog_user') );
 
 	},
 
 	getPriority: function() {
 
-		return this.getSelectValues( $('issue_dynamic_priority_editor') );
+		return this.getSelectValues( $('new_task_dialog_task_priority') );
 
 	},
 
 	getStatuses: function() {
 
-		return this.getSelectValues( $('issue_current_status') );
+		return this.getSelectValues( $('issue_dynamic_status_editor') || $('task_dynamic_status_editor') );
+
+	},
+
+	getTags: function() {
+
+		var values = {};
+
+		$$('span[id^=apply_tag_]').each(function(span){
+			values[span.get('html')] = span.get('id').replace('apply_tag_', '');
+		});
+
+		return values;
 
 	},
 
@@ -72,13 +86,22 @@ var Acunote_class = new Class({
 
 		$('issues').getChildren().each(function(task){
 
-			var task = new Task_class(task);
+			var task = new Task_class(task, this.getView(), this.getAuthenticityToken());
 
 			tasks[task.id] = task;
 
 		}.bind(this));
 
 		return tasks;
+
+	},
+
+	/**
+	 * It's just for first time, i promise
+	 */
+	getView: function() {
+
+		return 'issue_list';
 
 	},
 
@@ -91,9 +114,11 @@ var Acunote_class = new Class({
 	getValues: function(params) {
 
 		return {
-			'owner' : this.owners,
-			'priority': this.priotity,
-			'status': this.statuses
+			'owner'     : this.owners,
+			'priority'  : this.priotity,
+			'apply_tag' : this.tags,
+			'remove_tag': this.tags,
+			'status'    : this.statuses
 		};
 
 	},
@@ -102,17 +127,38 @@ var Acunote_class = new Class({
 
 		if(params.values) {
 
-			for(var task in this.tasks) {
+			var active_tasks_id = this.getActiveTasksId();
 
-				if( this.tasks[task].isActive() ) {
+			//checking selected tasks
+			if (active_tasks_id.length) {
+
+				//Tags applying for all tasks in single request, so we need to apply them
+				//and remove this value from params
+				if (params.values.apply_tag) {
+
+					this.applyTags(params.values.apply_tag, active_tasks_id);
+
+					delete params.values.apply_tag;
+
+				}
+
+				if (params.values.remove_tag) {
+
+					this.removeTags(params.values.remove_tag, active_tasks_id);
+
+					delete params.values.remove_tag;
+
+				}
+
+				active_tasks_id.each(function(task_id){
 
 					for(var param_name in params.values) {
 
-						this.tasks[task].changeFieldValue(param_name, params.values[param_name]);
+						this.tasks[task_id].changeFieldValue(param_name, params.values[param_name]);
 
 					}
 
-				}
+				}.bind(this));
 
 			}
 
@@ -125,6 +171,99 @@ var Acunote_class = new Class({
 		}
 
 		return return_value;
+
+	},
+
+	getActiveTasksId: function() {
+
+		var ids = [];
+
+		for(var task_id in this.tasks) {
+
+			if( this.tasks[task_id].isActive() ) {
+
+				ids.push(task_id);
+
+			}
+
+		}
+
+		return ids;
+
+	},
+
+	applyTags: function (tag_id, active_tasks_id) {
+
+		var params = 'selected_issues=' + active_tasks_id.join(',') +
+			'&tag_id=' + tag_id +
+			'&view=' + this.getView() +
+			'&page=' + this.getPage() +
+			( this.getProjectId() ? '&project_id=' + this.getProjectId() : '') +
+			'&query=' + this.getQuery() +
+			'&toolbox_action=apply_tag' +
+			'&authenticity_token=' + this.getAuthenticityToken() +
+			'&_=' + '';
+
+		new Request({
+			url: 'https://' + location.host + '/issues/apply_tag',
+			'method': 'post'
+		}).send(params);
+
+	},
+
+	removeTags: function(tag_id, active_tasks_id) {
+
+		var params = 'selected_issues=' + active_tasks_id.join(',') +
+			'&tag_id=' + tag_id +
+			'&view=' + this.getView() +
+			'&page=' + this.getPage() +
+			( this.getProjectId() ? '&project_id=' + this.getProjectId() : '') +
+			'&query=' + this.getQuery() +
+			'&toolbox_action=remove_tag' +
+			'&authenticity_token=' + this.getAuthenticityToken() +
+			'&_=' + '';
+
+		new Request({
+			url: 'https://' + location.host + '/issues/remove_tag',
+			'method': 'post'
+		}).send(params);
+
+	},
+
+	getAuthenticityToken: function() {
+
+		return encodeURIComponent($(document.body).getElement('input[name=authenticity_token]').value);
+
+	},
+
+	getQuery: function() {
+
+		var query = $('current_query');
+
+		return query ? query.innerHTML : '';
+
+	},
+
+	getPage: function() {
+
+		var page = $('total_pages_count');
+
+		return page ? page.innerHTML : null;
+
+	},
+
+	getProjectId: function() {
+
+		var select = $('new_task_dialog_project_selector'),
+			project_id = null;
+
+		if (select) {
+
+			project_id = select[select.selectedIndex].value;
+
+		}
+
+		return project_id;
 
 	}
 

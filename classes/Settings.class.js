@@ -16,11 +16,11 @@ var Settings_class = new Class({
 
 		this.settings = $('settings');
 
+		this._getItems();
+
 		this.port = port;
 
 		this.port.sendRequest({'action': 'getValues'}, this.onResponse.bind(this));
-
-		this._getItems();
 
 		this.bindFillAction();
 

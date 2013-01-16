@@ -4,10 +4,10 @@ loader.addEventListener('load', function(){
 
 	controller = new Controller_class(new Model_class());
 
-	ExtensionPort = new ExtensionPort_class();
+	extensionPort = new ExtensionPort_class();
 
-	settings_slider = new SettingsSlider_class();
+	//settings_slider = new SettingsSlider_class();
 
-	settings = new Settings_class(ExtensionPort);
+	settings = new Settings_class(extensionPort);
 
 });

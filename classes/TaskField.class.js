@@ -48,6 +48,10 @@ var TaskField_class = new Class({
 
 	},
 
+	getCurrentTextValue: function() {},
+
+	getPosibleValues: function() {},
+
 	changeValue: function(value) {
 
 		this.old_value = this.value === null ? '' : this.value;

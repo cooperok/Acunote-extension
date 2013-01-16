@@ -8,8 +8,6 @@ var Controller_class = new Class({
 
 			this.model = model;
 
-			return this;
-
 		} else {
 
 			return null;

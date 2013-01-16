@@ -1,5 +1,6 @@
 body{font-size:.9em;}
 a{text-decoration:none}
+select{max-width:110px}
 .hidden{display:none}
 .container{width:300px;padding: 1em}
 

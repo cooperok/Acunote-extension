@@ -25,18 +25,20 @@ var Task_class = new Class({
 	/**
 	 * @type String
 	 */
-	view_type: null,
+	view: null,
 
-	initialize: function(element) {
+	/**
+	 * @type String
+	 */
+	authenticity_token: null,
 
-		this.actions = {
-			'owners': 'changeOwner',
-			'statuses': 'changeStatus',
-			'priority': 'changePriority',
-			'estimate': 'changeEstimate'
-		};
+	initialize: function(element, view, authenticity_token) {
 
 		this.element = element;
+
+		this.view = view;
+
+		this.authenticity_token = authenticity_token;
 
 		this.id = this.element.id.match(/[a-z_]+(\d+)$/)[1];
 
@@ -49,8 +51,8 @@ var Task_class = new Class({
 	createFields: function() {
 
 		this.fields = {
-			'status':   new StatusField_class(this),
-			'owner':    new OwnerField_Class(this),
+			'status'  : new StatusField_class(this),
+			'owner'   : new OwnerField_Class(this),
 			'priority': new PriorityField_Class(this),
 			'estimate': new EstimateField_Class(this)
 		};
@@ -75,14 +77,13 @@ var Task_class = new Class({
 
 	getAuthenticityToken: function() {
 
-		return encodeURIComponent($(document.body).getElement('input[name=authenticity_token]').value);
+		return this.authenticity_token;
 
 	},
 
 	getView: function() {
 
-		//hardcode for first time, i'm tired
-		return 'issue_list';
+		return this.view;
 
 	}
 
