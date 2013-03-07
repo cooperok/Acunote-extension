@@ -1,0 +1,14 @@
+{
+	"classes": [
+		"TaskField", "OwnerField",
+		"PriorityField", "StatusField",
+		"EstimateField", "Task",
+		"RequestHandler", "Acunote"
+	],
+	"libs": [
+		"mootools.js"
+	],
+	"scripts": [
+		"content_debug.js"
+	]
+}

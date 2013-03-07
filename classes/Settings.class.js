@@ -14,7 +14,7 @@ var Settings_class = new Class({
 
 	initialize: function(port) {
 
-		this.settings = $('settings');
+		this.settings = document.id('settings');
 
 		this._getItems();
 
@@ -103,7 +103,7 @@ var Settings_class = new Class({
 
 	bindFillAction: function() {
 
-		$('fill').addEvent('click', this.onFill.bind(this));
+		document.id('fill').addEvent('click', this.onFill.bind(this));
 
 	},
 

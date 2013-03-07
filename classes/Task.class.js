@@ -42,7 +42,7 @@ var Task_class = new Class({
 
 		this.id = this.element.id.match(/[a-z_]+(\d+)$/)[1];
 
-		this.checkbox = $('checkbox_' + this.id);
+		this.checkbox = document.id('checkbox_' + this.id);
 
 		this.createFields();
 

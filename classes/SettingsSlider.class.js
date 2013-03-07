@@ -25,9 +25,9 @@ var SettingsSlider_class = new Class({
 
 	initialize: function() {
 
-		this.toggle_btn = $('toggle_settings');
+		this.toggle_btn = document.id('toggle_settings');
 
-		this.settings_arrow = $('settings_arrow');
+		this.settings_arrow = document.id('settings_arrow');
 
 		this.initFx();
 

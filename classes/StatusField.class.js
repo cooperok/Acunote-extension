@@ -6,13 +6,13 @@ var StatusField_class = new Class({
 
 	getCurrentTextValue: function() {
 
-		return $('issue_status_' + this.task.id).getElement('a').innerHTML;
+		return document.id('issue_status_' + this.task.id).getElement('a').innerHTML;
 
 	},
 
 	getPosibleValues: function() {
 
-		return $('task_dynamic_status_editor') || $('issue_current_status');
+		return document.id('task_dynamic_status_editor') || document.id('issue_current_status');
 
 	}
 

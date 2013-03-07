@@ -6,7 +6,7 @@ var EstimateField_Class = new Class({
 
 	getValue: function() {
 
-		this.value = $('issue_estimate_' + this.task.id).getElement('a').innerHTML;
+		this.value = document.id('issue_estimate_' + this.task.id).getElement('a').innerHTML;
 
 	}
 

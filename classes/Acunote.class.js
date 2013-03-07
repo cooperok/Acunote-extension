@@ -38,19 +38,19 @@ var Acunote_class = new Class({
 
 	getOwners: function() {
 
-		return this.getSelectValues( $('new_task_dialog_user') );
+		return this.getSelectValues( document.id('new_task_dialog_user') );
 
 	},
 
 	getPriority: function() {
 
-		return this.getSelectValues( $('new_task_dialog_task_priority') );
+		return this.getSelectValues( document.id('new_task_dialog_task_priority') );
 
 	},
 
 	getStatuses: function() {
 
-		return this.getSelectValues( $('issue_dynamic_status_editor') || $('task_dynamic_status_editor') );
+		return this.getSelectValues( document.id('issue_dynamic_status_editor') || document.id('task_dynamic_status_editor') );
 
 	},
 
@@ -58,7 +58,7 @@ var Acunote_class = new Class({
 
 		var values = {};
 
-		$$('span[id^=apply_tag_]').each(function(span){
+		Slick.search('span[id^=apply_tag_]').each(function(span){
 			values[span.get('html')] = span.get('id').replace('apply_tag_', '');
 		});
 
@@ -84,7 +84,7 @@ var Acunote_class = new Class({
 
 		var tasks = {};
 
-		$('issues').getChildren().each(function(task){
+		document.id('issues').getChildren().each(function(task){
 
 			var task = new Task_class(task, this.getView(), this.getAuthenticityToken());
 
@@ -232,13 +232,13 @@ var Acunote_class = new Class({
 
 	getAuthenticityToken: function() {
 
-		return encodeURIComponent($(document.body).getElement('input[name=authenticity_token]').value);
+		return encodeURIComponent(document.body.getElement('input[name=authenticity_token]').value);
 
 	},
 
 	getQuery: function() {
 
-		var query = $('current_query');
+		var query = document.id('current_query');
 
 		return query ? query.innerHTML : '';
 
@@ -246,7 +246,7 @@ var Acunote_class = new Class({
 
 	getPage: function() {
 
-		var page = $('total_pages_count');
+		var page = document.id('total_pages_count');
 
 		return page ? page.innerHTML : null;
 
@@ -254,7 +254,7 @@ var Acunote_class = new Class({
 
 	getProjectId: function() {
 
-		var select = $('new_task_dialog_project_selector'),
+		var select = document.id('new_task_dialog_project_selector'),
 			project_id = null;
 
 		if (select) {

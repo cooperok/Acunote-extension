@@ -1,0 +1,1 @@
+acunote = new Acunote_class();

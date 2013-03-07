@@ -11,19 +11,27 @@
 	var JSLoader = function(options) {
 
 		this.options = {
-			class_suffix: '_class',
-			file_extension: '.class.js',
-			json_url: 'json/popup_classes.json'
+			class_suffix  : '_class',           //suffix of variable of class
+			file_extension: '.class.js',        //extension of file with script of class
+			json_url      : 'json/classes.json',//path to json file with list of required files
+			match_order   : true                //load js files in the same order as in json file,
+												//if false - loading order = libs, classes, scripts
 		};
 
+		/**
+		 * List of all script from json file
+		 */
 		this.scripts_list = {};
 
+		/**
+		 * Array with pathes to js files
+		 */
 		this.scripts = [];
 
 		this.events = {};
 
 		//User defined options
-		for (i in options) this.options[i] = options[i];
+		for (var i in options) this.options[i] = options[i];
 
 		this.loadJSON();
 
@@ -56,54 +64,76 @@
 
 			this.scripts_list = JSON.parse(response);
 
-			//First collecting libraries
-			this.collectLibs();
+			if (this.options.match_order) {
 
-			//Then all other scripts
-			this.collectScripts();
+				this.collectAllScripts();
+
+			} else {
+
+				//First collecting libraries
+				this.collectScriptsByType('libs');
+
+				//Then all classes
+				this.collectClasses();
+
+				//Then collecting other scripts
+				this.collectScriptsByType('scripts');
+
+			}
 
 			this.load();
 
 		},
 
 		/**
-		 * Collects pathes of all required js libs
+		 * Collects pathes of all required js scripts
 		 */
-		collectLibs: function() {
+		collectAllScripts: function() {
 
-			if (this.scripts_list.libs) {
+			for(var type in this.scripts_list) {
 
-				for(var script_name in this.scripts_list.libs) {
-
-					var path = 'libs/' + this.scripts_list.libs[script_name];
-
-					this.scripts.push(chrome.extension.getURL(path));
-
-				}
+				this.collectScriptsByType(type);
 
 			}
 
 		},
 
 		/**
-		 * Collects pathes of all required js scripts except libraries
+		 * Collects pathes of required js scripts except classes
 		 */
-		collectScripts: function() {
+		collectScriptsByType: function(type) {
 
-			for(var type in this.scripts_list) {
+			if (this.scripts_list[type]) {
 
-				if (type != 'libs') {
+				for(var i = 0; i < this.scripts_list[type].length; i++) {
 
-					for(var script_name in this.scripts_list[type]) {
+					//key of script_list object matches the directory name
+					var path = type + '/' + this.scripts_list[type][i];
 
-						//key of script_list object matches the directory name
-						var path = type + '/'
-							+ this.scripts_list[type][script_name].replace(this.options.class_suffix, '')
-							+ this.options.file_extension;
+					this.scripts.push(chrome.extension.getURL(path));
 
-						this.scripts.push(chrome.extension.getURL(path));
+				}
 
-					}
+				delete this.scripts_list[type];
+
+			}
+
+		},
+
+		/**
+		 * Collects pathes of all required js classes
+		 */
+		collectClasses: function() {
+
+			if (this.scripts_list.classes) {
+
+				for(var i = 0; i < this.scripts_list.classes.length; i++) {
+
+					var path = 'classes/'
+						+ this.scripts_list.classes[i].replace(this.options.class_suffix, '')
+						+ this.options.file_extension;
+
+					this.scripts.push(chrome.extension.getURL(path));
 
 				}
 

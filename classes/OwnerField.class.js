@@ -6,13 +6,13 @@ var OwnerField_Class = new Class({
 
 	getCurrentTextValue: function() {
 
-		return $('issue_owner_' + this.task.id).getElement('a').innerHTML;
+		return document.id('issue_owner_' + this.task.id).getElement('a').innerHTML;
 
 	},
 
 	getPosibleValues: function() {
 
-		return $('owner_filter') || $('issue_dynamic_owner_editor');
+		return document.id('owner_filter') || document.id('issue_dynamic_owner_editor');
 
 	}
 

@@ -1,4 +1,4 @@
-var loader = new JSLoader();
+var loader = new JSLoader({json_url: 'json/popup.json',match_order:false});
 
 loader.addEventListener('load', function(){
 

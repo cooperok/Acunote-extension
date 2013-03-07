@@ -30,10 +30,11 @@
 				"classes/Task.class.js", "classes/Acunote.class.js",
 				"classes/RequestHandler.class.js", "classes/ContentPort.class.js",
 				"content.js"
+//				,"loader/JSLoader.js", "content_debug.js"
 			]
 		}
 	],
 	"web_accessible_resources": [
-		"img/*", "libs/*", "classes/*", "json/*"
+		"img/*", "libs/*", "classes/*", "json/*", "scripts/*"
 	]
 }

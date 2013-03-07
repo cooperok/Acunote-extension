@@ -6,13 +6,13 @@ var PriorityField_Class = new Class({
 
 	getCurrentTextValue: function() {
 
-		return $('issue_priority_' + this.task.id).getElement('a').innerHTML;
+		return document.id('issue_priority_' + this.task.id).getElement('a').innerHTML;
 
 	},
 
 	getPosibleValues: function() {
 
-		return $('task_dynamic_priority_editor') || $('issue_dynamic_priority_editor');
+		return document.id('task_dynamic_priority_editor') || document.id('issue_dynamic_priority_editor');
 
 	}
 
